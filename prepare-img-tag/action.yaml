@@ -1,0 +1,16 @@
+name: prepare-image-tag
+author: snapADDY GmbH
+description: Prepare a tag for Docker images and decide if they should be published
+inputs:
+  commitMessage:
+    description: Git commit message
+    required: true
+    default: ${{ github.event.head_commit.message }}
+outputs:
+  tag-name:
+    description: Docker image tag
+  publish:
+    description: Decides if images should be published
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
