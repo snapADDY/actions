@@ -44,7 +44,7 @@ func makeImgTag(ctx actions.Context, flags msgflag.Flags) (string, bool) {
 
 		} else if ctx.Ref.Type == actions.Branch {
 			br := ctx.Ref.Name
-			br = strings.ReplaceAll(br, "/", "")
+			br = strings.ReplaceAll(br, "/", "-")
 			br = invalidChar.ReplaceAllString(br, "")
 
 			_, pub := alwaysPublishBranch[br]
