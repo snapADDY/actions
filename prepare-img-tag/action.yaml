@@ -1,4 +1,4 @@
-name: prepare-image-tag
+name: prepare-img-tag
 author: snapADDY GmbH
 description: Prepare a tag for Docker images and decide if they should be published
 inputs:
