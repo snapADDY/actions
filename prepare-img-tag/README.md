@@ -1,7 +1,7 @@
 # prepare-img-tag
 Prepares a tag for Docker images and decide if they should be published
 
-Tag names have multiple formats. For images that will never be published (e.g Pull Requests) the format `run-${RunNumber}` is used. Git tags containing only valid characters for docker tags are used as is. Images from push events which could be published use the `${branch|overwrite}-${shortSHA}-${RunNumber` format.
+Tag names have multiple formats. For images that will never be published (e.g Pull Requests) the format `run-${RunNumber}` is used. Git tags containing only valid characters for docker tags are used as is. Images from push events which could be published use the `${branch|overwrite}-${shortSHA}-${RunNumber}` format.
 
 ## Ruleset
 
