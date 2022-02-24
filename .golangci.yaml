@@ -1,0 +1,9 @@
+linters:
+  enable-all: true
+  disable:
+    - exhaustivestruct
+    - forbidigo
+    - gochecknoglobals
+    - gomnd
+    - testpackage
+    - varnamelen
