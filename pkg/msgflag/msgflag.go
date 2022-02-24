@@ -6,14 +6,12 @@ import (
 )
 
 // Flags is a collection of all defined git commit message flags.
-type Flags struct {
-	// Img hold all flag options for images (see ImgFlag)
-	Img ImgFlag
-}
+type Flags map[string][]string
 
-// Parse parses a git commit message and saves all flags with options to a Flag struct
+// Parse parses a git commit message and saves all flags with options to a Flag struct.
 func Parse(msg string) Flags {
 	flagStr := extractFlags(msg)
+
 	return parseFlags(flagStr)
 }
 
@@ -42,10 +40,7 @@ func parseFlags(flagStr []string) Flags {
 
 		f := strings.Split(str, ":")
 
-		switch f[0] {
-		case "img":
-			flags.Img = parseImgFlag(f)
-		}
+		flags[f[0]] = f
 	}
 
 	return flags

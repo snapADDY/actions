@@ -1,4 +1,4 @@
-package msgflag
+package main
 
 // ImgFlag describes all options for docker images. The Flag uses `img` as prefix and has multiple optional settings.
 // Examles of valid flags:
@@ -33,6 +33,7 @@ func parseImgFlag(flag []string) ImgFlag {
 	if len(flag) >= 2 {
 		env := flag[1]
 		_, blocked := blockedEnvOverrides[env]
+
 		if !blocked {
 			fl.EnvNameOverride = env
 		}

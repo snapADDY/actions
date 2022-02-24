@@ -19,13 +19,13 @@ func main() {
 
 	fmt.Printf("Parsed commit message: %s\nFlags: %#v\n", commitMsg, flags)
 
-	tag, publish := makeImgTag(ctx, flags)
+	imgFlag := parseImgFlag(flags["img"])
+	tag, publish := makeImgTag(ctx, imgFlag)
 
 	fmt.Printf("Prepared Tag: %s; Should publish %v\n", tag, publish)
 
 	actions.SetOutput("tag-name", tag)
 	actions.SetOutput("publish", publish)
-
 }
 
 var alwaysPublishBranch = map[string]bool{
@@ -34,33 +34,32 @@ var alwaysPublishBranch = map[string]bool{
 	"staging": true,
 }
 
-func makeImgTag(ctx actions.Context, flags msgflag.Flags) (string, bool) {
+func makeImgTag(action actions.Context, imgFlag ImgFlag) (string, bool) {
 	tagRegex := regexp.MustCompile(`^\w[\w.-]{0,127}$`)
 	invalidChar := regexp.MustCompile(`[^\w.-]+`)
 
-	if ctx.EventName == "push" {
-		if ctx.Ref.Type == actions.Tag && tagRegex.MatchString(ctx.Ref.Name) {
-			return ctx.Ref.Name, true
-
-		} else if ctx.Ref.Type == actions.Branch {
-			br := ctx.Ref.Name
+	if action.EventName == "push" {
+		if action.Ref.Type == actions.Tag && tagRegex.MatchString(action.Ref.Name) {
+			return action.Ref.Name, true
+		} else if action.Ref.Type == actions.Branch {
+			br := action.Ref.Name
 			br = strings.ReplaceAll(br, "/", "-")
 			br = invalidChar.ReplaceAllString(br, "")
 
 			_, pub := alwaysPublishBranch[br]
-			pub = pub || flags.Img.ShouldPublish
+			pub = pub || imgFlag.ShouldPublish
 
-			ov := flags.Img.EnvNameOverride
+			ov := imgFlag.EnvNameOverride
 			if ov != "" && tagRegex.MatchString(ov) {
 				br = ov
 			}
 
-			hash := ctx.SHA[:8]
-			tag := fmt.Sprintf("%s-%s-%d", br, hash, ctx.RunNumber)
+			hash := action.SHA[:8]
+			tag := fmt.Sprintf("%s-%s-%d", br, hash, action.RunNumber)
 
 			return tag, pub
 		}
 	}
 
-	return fmt.Sprintf("run-%d", ctx.RunNumber), false
+	return fmt.Sprintf("run-%d", action.RunNumber), false
 }
