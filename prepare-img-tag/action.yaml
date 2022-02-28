@@ -13,4 +13,4 @@ outputs:
     description: Decides if images should be published
 runs:
   using: 'docker'
-  image: 'Dockerfile'
+  image: 'docker://ghcr.io/snapaddy/actions-prepare-img-tag:1.1.0'
