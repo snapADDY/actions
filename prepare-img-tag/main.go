@@ -6,8 +6,8 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/snapADDY/actions/pkg/actions"
-	"github.com/snapADDY/actions/pkg/msgflag"
+	"github.com/snapADDY/actions/internal/actions"
+	"github.com/snapADDY/actions/internal/msgflag"
 )
 
 func main() {
