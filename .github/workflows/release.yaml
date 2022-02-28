@@ -2,8 +2,6 @@ name: Create and publish Action Images
 
 on:
   push:
-    branches:
-      - refactor/release
     tags:
 
 jobs:
