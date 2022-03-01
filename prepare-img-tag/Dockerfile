@@ -12,4 +12,4 @@ WORKDIR /opt/action
 
 COPY --from=builder /opt/action/bin .
 
-ENTRYPOINT [ "./prepare-img-tag" ]
+ENTRYPOINT [ "/opt/action/prepare-img-tag" ]
