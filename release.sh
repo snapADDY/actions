@@ -22,3 +22,6 @@ done
 
 git commit -m "build(release): v${version}"
 git tag -m "v${version}" v${version}
+
+major_version= `echo $version | cut -d . -f 1`
+git tag -f -m "v${major_version}" v${major_version}

@@ -3,6 +3,7 @@ name: Create and publish Action Images
 on:
   push:
     tags:
+      - 'v*.*.*'
 
 jobs:
   prepare-img-tag:
