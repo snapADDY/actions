@@ -59939,6 +59939,7 @@ async function run() {
     try {
         const store = new store_ghcache_1.GHCacheStore();
         let dpl = await store.get(changeKey);
+        core.info(`Found previous deployment. key=${changeKey} sha=${dpl.commitSHA}`);
         core.setOutput(constants_1.Outputs.LastCommitSHA, dpl.commitSHA);
         let files = cp.execSync(`git diff --name-only ${dpl.commitSHA}`).toString();
         core.setOutput(constants_1.Outputs.ChangedFiles, files);
@@ -59955,16 +59956,21 @@ async function postRun() {
         core.info('persist-run is disabled');
         return;
     }
-    const context = github.context;
-    const dpl = {
-        key: constants_1.KEY_PREFIX + core.getInput(constants_1.Inputs.ChangeKey),
-        created: new Date(),
-        commitSHA: context.sha,
-    };
-    core.debug(`Created Deployment. deployment=${JSON.stringify(dpl)}`);
-    const store = new store_ghcache_1.GHCacheStore();
-    await store.set(dpl);
-    core.info(`Successfully persisted deployment. key=${dpl.key} sha=${dpl.commitSHA}`);
+    try {
+        const context = github.context;
+        const dpl = {
+            key: constants_1.KEY_PREFIX + core.getInput(constants_1.Inputs.ChangeKey),
+            created: new Date(),
+            commitSHA: context.sha,
+        };
+        core.debug(`Created Deployment. deployment=${JSON.stringify(dpl)}`);
+        const store = new store_ghcache_1.GHCacheStore();
+        await store.set(dpl);
+        core.info(`Successfully persisted deployment. key=${dpl.key} sha=${dpl.commitSHA}`);
+    }
+    catch (err) {
+        core.info(`Could persist deployment. error=${err.message}`);
+    }
 }
 exports.postRun = postRun;
 

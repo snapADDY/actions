@@ -18,7 +18,6 @@ export class GHCacheStore implements Store {
     await cache.restoreCache([this._cachepath], key, []);
 
     core.debug(`Trying to read cachefile. file=${this._storepath}`);
-
     const content = await fs.readFile(this._storepath, { encoding: 'utf-8' });
 
     core.debug(`Trying to parse cachefile content. content=${content}`);
@@ -27,7 +26,6 @@ export class GHCacheStore implements Store {
     if (dpl.key !== key) {
       throw new Error(`Deployment does not match provided key. got=${dpl.key} want=${key}`);
     }
-
     core.debug(`Got Deployment.`);
 
     return dpl;
@@ -38,7 +36,6 @@ export class GHCacheStore implements Store {
 
     await fs.mkdir(this._cachepath, { recursive: true });
     await fs.writeFile(this._storepath, JSON.stringify(deploy), { encoding: 'utf8' });
-
     core.debug(`Persisted Deployment.`);
 
     await cache.saveCache([this._cachepath], deploy.key);

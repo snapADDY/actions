@@ -12,6 +12,7 @@ export async function run(): Promise<void> {
     const store: Store = new GHCacheStore();
     let dpl = await store.get(changeKey);
 
+    core.info(`Found previous deployment. key=${changeKey} sha=${dpl.commitSHA}`);
     core.setOutput(Outputs.LastCommitSHA, dpl.commitSHA);
 
     let files = cp.execSync(`git diff --name-only ${dpl.commitSHA}`).toString();
@@ -31,18 +32,20 @@ export async function postRun(): Promise<void> {
     return;
   }
 
-  const context = github.context;
+  try {
+    const context = github.context;
 
-  const dpl: Deployment = {
-    key: KEY_PREFIX + core.getInput(Inputs.ChangeKey),
-    created: new Date(),
-    commitSHA: context.sha,
-  };
+    const dpl: Deployment = {
+      key: KEY_PREFIX + core.getInput(Inputs.ChangeKey),
+      created: new Date(),
+      commitSHA: context.sha,
+    };
+    core.debug(`Created Deployment. deployment=${JSON.stringify(dpl)}`);
 
-  core.debug(`Created Deployment. deployment=${JSON.stringify(dpl)}`);
-
-  const store: Store = new GHCacheStore();
-  await store.set(dpl);
-
-  core.info(`Successfully persisted deployment. key=${dpl.key} sha=${dpl.commitSHA}`);
+    const store: Store = new GHCacheStore();
+    await store.set(dpl);
+    core.info(`Successfully persisted deployment. key=${dpl.key} sha=${dpl.commitSHA}`);
+  } catch (err) {
+    core.info(`Could persist deployment. error=${(err as Error).message}`);
+  }
 }
