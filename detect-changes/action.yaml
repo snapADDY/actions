@@ -5,9 +5,9 @@ inputs:
   change-key:
     description: Key used for change detection. Usually a git branch, environment, etc.
     required: true
-    default: '{{ github.event_name }}-{{ github.ref }}'
+    default: ${{ github.event_name }}-${{ github.ref }}
   persist-run:
-    description:
+    description: Persist current run for this cache-key
     required: true
 outputs:
   last-commit-sha:
