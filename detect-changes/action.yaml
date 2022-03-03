@@ -1,0 +1,21 @@
+name: detect-changes
+author: snapADDY GmbH
+description: Detect changes between the current and last job with a custom key
+inputs:
+  change-key:
+    description: Key used for change detection. Usually a git branch, environment, etc.
+    required: true
+    default: '{{ github.event_name }}-{{ github.ref }}'
+  persist-run:
+    description:
+    required: true
+outputs:
+  last-commit-sha:
+    description: Last successful run commit SHA
+  changed-files:
+    description: List of changed files since last successful run
+runs:
+  using: 'node16'
+  main: 'dist/run/index.js'
+  post: 'dist/post-run/index.js'
+  post-if: 'success()'

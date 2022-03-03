@@ -1,0 +1,26 @@
+{
+  "name": "detect-changes",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Custom Action to detect changes between the current and last job with a custom key",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "ncc build -o dist/run src/run.ts && ncc build -o dist/post-run src/post-run.ts",
+    "format": "prettier --write **/*.ts"
+  },
+  "author": "snapADDY GmbH",
+  "license": "MIT",
+  "engines": {
+    "node": ">= 16.0.0"
+  },
+  "devDependencies": {
+    "@vercel/ncc": "^0.33.3",
+    "prettier": "^2.5.1",
+    "typescript": "^4.6.2"
+  },
+  "dependencies": {
+    "@actions/cache": "^1.0.9",
+    "@actions/core": "^1.6.0",
+    "@actions/github": "^5.0.0"
+  }
+}
