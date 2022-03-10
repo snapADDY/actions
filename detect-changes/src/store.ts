@@ -5,6 +5,6 @@ export type Deployment = {
 };
 
 export interface Store {
-  get(key: string): Promise<Deployment>;
+  get(key: string, altKeys: string[]): Promise<Deployment>;
   set(deploy: Deployment): Promise<void>;
 }

@@ -59935,10 +59935,11 @@ const cp = __nccwpck_require__(7718);
 const constants_1 = __nccwpck_require__(2631);
 const store_ghcache_1 = __nccwpck_require__(7362);
 async function run() {
-    const changeKey = constants_1.KEY_PREFIX + core.getInput(constants_1.Inputs.ChangeKey);
+    const changeKeyBase = constants_1.KEY_PREFIX + core.getInput(constants_1.Inputs.ChangeKey) + '-';
+    const changeKey = changeKeyBase + github.context.sha;
     try {
         const store = new store_ghcache_1.GHCacheStore();
-        let dpl = await store.get(changeKey);
+        let dpl = await store.get(changeKey, [changeKeyBase]);
         core.info(`Found previous deployment. key=${changeKey} sha=${dpl.commitSHA}`);
         core.setOutput(constants_1.Outputs.LastCommitSHA, dpl.commitSHA);
         let files = cp.execSync(`git diff --name-only ${dpl.commitSHA}`).toString();
@@ -59958,8 +59959,9 @@ async function postRun() {
     }
     try {
         const context = github.context;
+        const changeKey = constants_1.KEY_PREFIX + core.getInput(constants_1.Inputs.ChangeKey) + '-' + context.sha;
         const dpl = {
-            key: constants_1.KEY_PREFIX + core.getInput(constants_1.Inputs.ChangeKey),
+            key: changeKey,
             created: new Date(),
             commitSHA: context.sha,
         };
@@ -60016,16 +60018,13 @@ class GHCacheStore {
         this._cachepath = path.join(os.homedir(), '.cache/snapaddy-actions-detect-changes');
         this._storepath = path.join(this._cachepath, 'store.json');
     }
-    async get(key) {
-        await cache.restoreCache([this._cachepath], key, []);
+    async get(key, altKeys) {
+        await cache.restoreCache([this._cachepath], key, altKeys);
         core.debug(`Trying to read cachefile. file=${this._storepath}`);
         const content = await fs.readFile(this._storepath, { encoding: 'utf-8' });
         core.debug(`Trying to parse cachefile content. content=${content}`);
         const dpl = JSON.parse(content);
-        if (dpl.key !== key) {
-            throw new Error(`Deployment does not match provided key. got=${dpl.key} want=${key}`);
-        }
-        core.debug(`Got Deployment.`);
+        core.debug(`Got Deployment. key=${dpl.key}`);
         return dpl;
     }
     async set(deploy) {

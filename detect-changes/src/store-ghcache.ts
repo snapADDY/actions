@@ -14,8 +14,8 @@ export class GHCacheStore implements Store {
     this._storepath = path.join(this._cachepath, 'store.json');
   }
 
-  async get(key: string): Promise<Deployment> {
-    await cache.restoreCache([this._cachepath], key, []);
+  async get(key: string, altKeys: string[]): Promise<Deployment> {
+    await cache.restoreCache([this._cachepath], key, altKeys);
 
     core.debug(`Trying to read cachefile. file=${this._storepath}`);
     const content = await fs.readFile(this._storepath, { encoding: 'utf-8' });
@@ -23,10 +23,7 @@ export class GHCacheStore implements Store {
     core.debug(`Trying to parse cachefile content. content=${content}`);
     const dpl: Deployment = JSON.parse(content);
 
-    if (dpl.key !== key) {
-      throw new Error(`Deployment does not match provided key. got=${dpl.key} want=${key}`);
-    }
-    core.debug(`Got Deployment.`);
+    core.debug(`Got Deployment. key=${dpl.key}`);
 
     return dpl;
   }

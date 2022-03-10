@@ -6,11 +6,11 @@ import { Deployment, Store } from './store';
 import { GHCacheStore } from './store-ghcache';
 
 export async function run(): Promise<void> {
-  const changeKey: string = KEY_PREFIX + core.getInput(Inputs.ChangeKey);
-
+  const changeKeyBase: string = KEY_PREFIX + core.getInput(Inputs.ChangeKey) + '-';
+  const changeKey = changeKeyBase + github.context.sha;
   try {
     const store: Store = new GHCacheStore();
-    let dpl = await store.get(changeKey);
+    let dpl = await store.get(changeKey, [changeKeyBase]);
 
     core.info(`Found previous deployment. key=${changeKey} sha=${dpl.commitSHA}`);
     core.setOutput(Outputs.LastCommitSHA, dpl.commitSHA);
@@ -35,8 +35,9 @@ export async function postRun(): Promise<void> {
   try {
     const context = github.context;
 
+    const changeKey = KEY_PREFIX + core.getInput(Inputs.ChangeKey) + '-' + context.sha;
     const dpl: Deployment = {
-      key: KEY_PREFIX + core.getInput(Inputs.ChangeKey),
+      key: changeKey,
       created: new Date(),
       commitSHA: context.sha,
     };
