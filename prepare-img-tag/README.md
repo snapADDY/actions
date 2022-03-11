@@ -31,15 +31,8 @@ All other events don't trigger an image publish.
 ```yaml
     # [...]
     steps:
-      - name: Checkout snapADDY/actions
-        uses: actions/checkout@v2
-        with:
-          repository: snapADDY/actions
-          path: .github/actions
-          persist-credentials: false
-          ssh-key: ${{ secrets.ACTIONS_REPO_SSH_KEY }}
       - name: Prepare Image Tag
-        uses: ./.github/actions/prepare-img-tag
+        uses: snapADDY/actions/prepare-img-tag@v1
         id: img-tag
 
       # [...]
