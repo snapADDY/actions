@@ -1,13 +1,9 @@
-from __future__ import print_function
-
 import itertools
 import json
 import os
 
 import requests
-from bandit.core import constants
-from bandit.core import docs_utils
-from bandit.core import test_properties
+from bandit.core import constants, docs_utils, test_properties
 
 
 def comment_on_pull_request(message):
@@ -79,23 +75,18 @@ def get_issue_description(issue, indent, show_lineno=True, show_code=True, lines
     bits = []
     bits.append("<details>")
     bits.append(
-        "<summary><strong>[%s:%s]</strong> %s</summary>\n<br>\n"
-        % (issue.test_id, issue.test, issue.text)
+        f"<summary><strong>[{issue.test_id}:{issue.test}]</strong> {issue.text}</summary>\n<br>\n"
     )
 
     bits.append(
-        "|<strong>Severity</strong>| %s |\n|:-:|:-:|\n|<strong>Confidence</strong>| %s |"
-        % (issue.severity.capitalize(), issue.confidence.capitalize())
+        f"|<strong>Severity</strong>| {issue.severity.capitalize()} |\n|:-:|:-:|\n|<strong>Confidence</strong>| {issue.confidence.capitalize()} |"
     )
 
     bits.append(
-        "|<strong>Location<strong>| %s:%s:%s |"
-        % (issue.fname, issue.lineno if show_lineno else "", "")
+        f"|<strong>Location<strong>| {issue.fname}:{issue.lineno if show_lineno else ''}:{''} |"
     )
 
-    bits.append(
-        "|<strong>More Info<strong>| %s |\n" % (docs_utils.get_url(issue.test_id))
-    )
+    bits.append(f"|<strong>More Info<strong>| {docs_utils.get_url(issue.test_id)} |\n")
 
     if show_code:
         bits.append("<br>\n\n```python")
@@ -153,7 +144,7 @@ def get_detailed_results(manager, sev_level, conf_level, lines):
 def get_verbose_details(manager):
     """Get verbose details."""
     bits = []
-    bits.append("Files in scope (%i):" % len(manager.files_list))
+    bits.append(f"Files in scope ({len(manager.files_list)}):")
     tpl = "\t%s (score: {SEVERITY: %i, CONFIDENCE: %i})"
     bits.extend(
         [
@@ -161,7 +152,7 @@ def get_verbose_details(manager):
             for (item, score) in zip(manager.files_list, manager.scores)
         ]
     )
-    bits.append("Files excluded (%i):" % len(manager.excluded_files))
+    bits.append(f"Files excluded ({len(manager.excluded_files)}):")
     bits.extend(["\t%s" % fname for fname in manager.excluded_files])
     return "\n".join([bit for bit in bits])
 
@@ -194,12 +185,10 @@ def report(manager, fileobj, sev_level, conf_level, lines: int = -1):
         # add general results
         bits.append("## Bandit results")
         bits.append(
-            "<strong>Total lines of code inspected:</strong> %i"
-            % (manager.metrics.data["_totals"]["loc"])
+            f"<strong>Total lines of code inspected:</strong> {(manager.metrics.data['_totals']['loc'])}"
         )
         bits.append(
-            "<strong>Total lines skipped (#nosec):</strong> %i"
-            % (manager.metrics.data["_totals"]["nosec"])
+            f"<strong>Total lines skipped (#nosec):</strong> {(manager.metrics.data['_totals']['nosec'])}"
         )
         # add metrics table
         bits.append(generate_metrics_table(manager))
