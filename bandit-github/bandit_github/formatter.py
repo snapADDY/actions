@@ -1,31 +1,3 @@
-r"""
-==============
-GitHub Formatter
-==============
-
-This formatter outputs the issues as plain text.
-
-:Example:
-
-.. code-block:: none
-
-    >> Issue: [B301:blacklist_calls] Use of unsafe yaml load. Allows
-       instantiation of arbitrary objects. Consider yaml.safe_load().
-
-       Severity: Medium   Confidence: High
-       Location: examples/yaml_load.py:5
-       More Info: https://bandit.readthedocs.io/en/latest/
-    4       ystr = yaml.dump({'a' : 1, 'b' : 2, 'c' : 3})
-    5       y = yaml.load(ystr)
-    6       yaml.dump(y)
-
-.. versionadded:: 0.9.0
-
-"""
-
-# Note: code copied and modified from:
-# https://github.com/snapADDY/snapaddy-data-pipelines/pull/1077
-
 from __future__ import print_function
 
 import itertools
