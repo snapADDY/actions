@@ -6,15 +6,23 @@ on:
       - 'v*.*.*'
 
 jobs:
-  prepare-img-tag:
+  docker-images:
     runs-on: ubuntu-latest
     permissions:
       contents: read
       packages: write
 
+    strategy:
+      matrix:
+        images:
+          - dir:  bandit-github
+            context: ./bandit-github
+          - dir:  prepare-img-tag
+            context: .
+
     env:
       REGISTRY: ghcr.io
-      IMAGE_NAME: ${{ github.repository }}-prepare-img-tag
+      IMAGE_NAME: ${{ github.repository }}-${{ matrix.images.dir }}
 
     steps:
       - name: Checkout repository
@@ -41,8 +49,8 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v2
         with:
-          context: .
-          file: ./prepare-img-tag/Dockerfile
+          context: ${{ matrix.images.context }}
+          file: ./${{ matrix.images.dir }}/Dockerfile
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
