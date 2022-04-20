@@ -4,8 +4,15 @@ variable "TAG" {
 
 group "default" {
   targets = [
+    "bandit-github",
     "prepare-img-tag"
   ]
+}
+
+target "bandit-github" {
+	context = "bandit-github"
+	dockerfile = "Dockerfile"
+	tags = ["actions-bandit-github:${TAG}"]
 }
 
 target "prepare-img-tag" {
