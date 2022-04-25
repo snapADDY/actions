@@ -45,11 +45,11 @@ def generate_metrics_table(manager):
     confusion_matrix = get_confusion_matrix(manager)
 
     # headline
-    bits.append("\n### Severity and confidence confusion matrix\n")
+    bits.append("\n### Severity/Confidence matrix\n")
 
     # table header
     bits.append(f"| | {'|'.join([severity_mapping[c] for c in constants.RANKING])}|")
-    bits.append("|:-:|:-:|:-:|:-:|:-:|")
+    bits.append("|-:|-:|-:|-:|-:|")
 
     # create rows
     for constant in constants.RANKING:
@@ -183,7 +183,7 @@ def report(manager, fileobj, sev_level, conf_level, lines: int = -1):
             bits.append(get_verbose_details(manager))
 
         # add general results
-        bits.append("## Bandit results")
+        bits.append("## Bandit Security Check")
         bits.append(
             f"<strong>Total lines of code inspected:</strong> {(manager.metrics.data['_totals']['loc'])}"
         )
