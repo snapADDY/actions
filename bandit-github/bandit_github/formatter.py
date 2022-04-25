@@ -42,7 +42,7 @@ def generate_metrics_table(manager):
         "HIGH": "High severity",
     }
 
-    confusion_matrix = get_confusion_matrix(manager)
+    table = get_table(manager)
 
     # headline
     bits.append("\n### Severity/Confidence matrix\n")
@@ -53,10 +53,10 @@ def generate_metrics_table(manager):
 
     # create rows
     for constant in constants.RANKING:
-        undefined = confusion_matrix[f"{constant}_UNDEFINED"]
-        low = confusion_matrix[f"{constant}_LOW"]
-        medium = confusion_matrix[f"{constant}_MEDIUM"]
-        high = confusion_matrix[f"{constant}_HIGH"]
+        undefined = table[f"{constant}_UNDEFINED"]
+        low = table[f"{constant}_LOW"]
+        medium = table[f"{constant}_MEDIUM"]
+        high = table[f"{constant}_HIGH"]
         bits.append(
             f"|{confidence_mapping[constant]}|{undefined}|{low}|{medium}|{high}|"
         )
@@ -97,18 +97,18 @@ def get_issue_description(issue, indent, show_lineno=True, show_code=True, lines
     return "\n".join([bit for bit in bits])
 
 
-def get_confusion_matrix(manager):
-    """Returns a confusion matrix with all possible RANKING constants."""
-    confusion_matrix = {
+def get_table(manager):
+    """Returns a 5x5 table with all possible RANKING constants."""
+    table = {
         "_".join(combination): 0
         for combination in list(itertools.product(constants.RANKING, constants.RANKING))
     }
     for issue_dict in manager.results:
         issue_severity = issue_dict.as_dict().get("issue_severity", 0)
         issue_confidence = issue_dict.as_dict().get("issue_confidence", 0)
-        confusion_matrix[f"{issue_severity}_{issue_confidence}"] += 1
+        table[f"{issue_severity}_{issue_confidence}"] += 1
 
-    return confusion_matrix
+    return table
 
 
 def get_detailed_results(manager, sev_level, conf_level, lines):
