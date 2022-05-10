@@ -1,5 +1,5 @@
-name: 'Bandit Github Action'
-description: 'Bandit Github Action'
+name: 'Bandit Python Github Action'
+description: 'Bandit Python Github Action'
 inputs:
   path:
     description: 'File or directory to run bandit on.'
@@ -34,7 +34,7 @@ inputs:
     required: true
 runs:
   using: 'docker'
-  image: 'docker://ghcr.io/snapaddy/actions-bandit-github:1.3.4'
+  image: 'docker://ghcr.io/snapaddy/actions-bandit-python:1.3.4'
   args:
     - ${{ inputs.path }}
     - ${{ inputs.level }}
