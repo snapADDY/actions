@@ -2,7 +2,7 @@ FROM python:3.9-alpine
 
 WORKDIR /app
 
-COPY bandit_python bandit_python
+COPY bandit_github bandit_github
 COPY setup.py setup.py
 RUN pip install .
 
