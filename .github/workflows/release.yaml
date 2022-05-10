@@ -13,6 +13,7 @@ jobs:
       packages: write
 
     strategy:
+      fail-fast: false
       matrix:
         images:
           - dir:  bandit-python
