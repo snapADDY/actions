@@ -6,9 +6,7 @@ from typing import IO
 import requests
 from bandit.core import constants, docs_utils, test_properties
 
-BANDIT_COMMENT_ON_PULL_REQUEST = os.environ.get(
-    "BANDIT_COMMENT_ON_PULL_REQUEST", "False"
-)
+BANDIT_COMMENT_ON_PULL_REQUEST = os.environ.get("BANDIT_COMMENT_ON_PULL_REQUEST")
 
 
 def comment_on_pull_request(message: str):
