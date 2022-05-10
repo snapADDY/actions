@@ -1,0 +1,45 @@
+name: 'Bandit Python Github Action'
+description: 'Bandit Python Github Action'
+inputs:
+  path:
+    description: 'File or directory to run bandit on.'
+    required: false
+    default: '.'
+  level:
+    description: 'Report only issues of a given severity level or higher. Possible values are: UNDEFINED, LOW, MEDIUM, HIGH (default: UNDEFINED).'
+    required: false
+    default: 'UNDEFINED'
+  confidence:
+    description: 'Report only issues of a given confidence level or higher.  Possible values are: UNDEFINED, LOW, MEDIUM, HIGH (default: UNDEFINED).'
+    required: false
+    default: 'UNDEFINED'
+  excluded_paths:
+    description: 'Comma-separated list of paths which will be excluded from scan. Global patterns are supported. Note that these are in addition to the excluded paths provided in the config file (default: .svn, CVS, .bzr, .hg, .git, __pycache__, .tox, .eggs, *.egg).'
+    required: false
+    default: 'DEFAULT'
+  exit_zero:
+    description: 'Exits with 0, even when results are found.'
+    required: false
+    default: 'DEFAULT'
+  skips:
+    description: 'Comma-separated list of test IDs which will be skipped.'
+    required: false
+    default: 'DEFAULT'
+  ini_path:
+    description: 'Path to a .bandit file that supplies command line arguments.'
+    required: false
+    default: 'DEFAULT'
+  GITHUB_TOKEN:
+    description: 'Github token of the repository (automatically created by Github).'
+    required: true
+runs:
+  using: 'docker'
+  image: 'docker://ghcr.io/snapaddy/actions-bandit-python:1.3.5'
+  args:
+    - ${{ inputs.path }}
+    - ${{ inputs.level }}
+    - ${{ inputs.confidence }}
+    - ${{ inputs.excluded_paths }}
+    - ${{ inputs.exit_zero }}
+    - ${{ inputs.skips }}
+    - ${{ inputs.ini_path }}
