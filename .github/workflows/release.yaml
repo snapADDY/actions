@@ -15,8 +15,8 @@ jobs:
     strategy:
       matrix:
         images:
-          - dir:  bandit-github
-            context: ./bandit-github
+          - dir:  bandit-python
+            context: ./bandit-python
           - dir:  prepare-img-tag
             context: .
 
