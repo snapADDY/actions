@@ -251,6 +251,8 @@ def report(
     * Function template taken from:
     https://bandit.readthedocs.io/en/latest/formatters/index.html#example-formatter
     * `fileobj` is unused here but required by bandit.
+    * IMMPORTATN: Argument names must match the bandit report function:
+    https://github.com/PyCQA/bandit/blob/29bc186352e30c732333847479e60a0628344be5/bandit/formatters/text.py#L152
 
     Parameters
     ----------
