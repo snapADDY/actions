@@ -86,7 +86,7 @@ def get_issue_description(
     indent: str,
     show_line_number: bool = True,
     show_code: bool = True,
-    n_lines: int = -1,
+    lines: int = -1,
 ) -> str:
     """Returns details of issue within a description. This description contains:
     - severity
@@ -105,7 +105,7 @@ def get_issue_description(
         Show line number of the issue, by default True
     show_code : bool, optional
         Show code environment of the problematic part, by default True
-    n_lines : int, optional
+    lines : int, optional
         Number of lines to report. -1 means all, by default -1
 
     Returns
@@ -133,7 +133,7 @@ def get_issue_description(
     if show_code:
         bits.append("<br>\n\n```python")
         bits.extend(
-            [indent + line for line in issue.get_code(n_lines, True).split("\n")]
+            [indent + line for line in issue.get_code(lines, True).split("\n")]
         )
         bits.append("```\n")
 
@@ -168,9 +168,9 @@ def get_table(manager: "bandit.core.manager.BanditManager") -> dict:
 
 def get_detailed_results(
     manager: "bandit.core.manager.BanditManager",
-    severity_level: str,
-    confidence_level: str,
-    n_lines: int = -1,
+    sev_level: str,
+    conf_level: str,
+    lines: int = -1,
 ) -> str:
     """Get detailed bandit results for every security issue.
 
@@ -178,11 +178,11 @@ def get_detailed_results(
     ----------
     manager : bandit.core.manager.BanditManager
        A bandit manager object.
-    severity_level : str
+    sev_level : str
         Filtering severity level ('LOW', 'MEDIUM', 'HIGH').
-    confidence_level : str
+    conf_level : str
         Filtering confidence level ('LOW', 'MEDIUM', 'HIGH').
-    n_lines : int, optional
+    lines : int, optional
         Number of lines to report. -1 means all, by default -1
 
     Returns
@@ -191,7 +191,7 @@ def get_detailed_results(
         Part of the bandit report with the detailed issue descriptions.
     """
     bits = []
-    issues = manager.get_issue_list(severity_level, confidence_level)
+    issues = manager.get_issue_list(sev_level, conf_level)
     baseline = not isinstance(issues, list)
     candidate_indent = " " * 10
 
@@ -201,7 +201,7 @@ def get_detailed_results(
     for issue in issues:
         # if not a baseline or only one candidate we know the issue of
         if not baseline or len(issues[issue]) == 1:
-            bits.append(get_issue_description(issue, "", lines=n_lines))
+            bits.append(get_issue_description(issue, "", lines=lines))
 
         # otherwise show the finding and the candidates
         else:
@@ -214,7 +214,7 @@ def get_detailed_results(
             bits.append("\n-- Candidate Issues --")
             for candidate in issues[issue]:
                 bits.append(
-                    get_issue_description(candidate, candidate_indent, lines=n_lines)
+                    get_issue_description(candidate, candidate_indent, lines=lines)
                 )
                 bits.append("\n")
     return "\n".join([bit for bit in bits])
@@ -240,18 +240,19 @@ def get_verbose_details(manager: "bandit.core.manager.BanditManager"):
 def report(
     manager: "bandit.core.manager.BanditManager",
     fileobj: IO,
-    severity_level: str,
-    confidence_level,
-    n_lines: int = -1,
+    sev_level: str,
+    conf_level,
+    lines: int = -1,
 ):
     """Prints discovered issues in the text format
 
     Notes
     -----
-    Function template taken from:
+    * Function template taken from:
     https://bandit.readthedocs.io/en/latest/formatters/index.html#example-formatter
-
-    `fileobj` is unused here but required by bandit.
+    * `fileobj` is unused here but required by bandit.
+    * Argument names should match the bandit report function:
+    https://github.com/PyCQA/bandit/blob/29bc186352e30c732333847479e60a0628344be5/bandit/formatters/text.py#L152
 
     Parameters
     ----------
@@ -259,15 +260,15 @@ def report(
        A bandit manager object.
     fileobj : IO
         A file object.
-    severity_level : str
+    sev_level : str
         Filtering severity level ('LOW', 'MEDIUM', 'HIGH').
-    confidence_level : str
+    conf_level : str
         Filtering confidence level ('LOW', 'MEDIUM', 'HIGH').
-    n_lines : int, optional
+    lines : int, optional
         Number of lines to report. -1 means all, by default -1.
     """
     bits = []
-    if manager.results_count(severity_level, confidence_level):
+    if manager.results_count(sev_level, conf_level):
         if manager.verbose:
             bits.append(get_verbose_details(manager))
 
@@ -290,7 +291,7 @@ def report(
             "<br>\n"
         )
         bits.append(
-            get_detailed_results(manager, severity_level, confidence_level, n_lines)
+            get_detailed_results(manager, sev_level, conf_level, lines)
         )
         bits.append("</details>")
 
