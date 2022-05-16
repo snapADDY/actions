@@ -62,7 +62,7 @@ def generate_metrics_table(manager: "bandit.core.manager.BanditManager") -> str:
     table = get_table(manager)
 
     # headline
-    bits.append("\n### Severity/Confidence matrix\n")
+    bits.append("\n### Severity/Confidence Matrix\n")
 
     # table header
     bits.append(f"| | {'|'.join([severity_mapping[c] for c in constants.RANKING])}|")
@@ -121,20 +121,19 @@ def get_issue_description(
 
     bits.append(
         f"|<strong>Severity</strong>| {issue.severity.capitalize()} |\n|:-:|:-:|\n|"
-        "<strong>Confidence</strong>| {issue.confidence.capitalize()} |"
+        f"<strong>Confidence</strong>| {issue.confidence.capitalize()} |"
     )
 
     bits.append(
-        f"|<strong>Location<strong>| {issue.fname}:{issue.lineno if show_line_number else ''}:{''} |"
+        "|<strong>Location<strong>| "
+        f"{issue.fname}:{issue.lineno if show_line_number else ''}:{''} |"
     )
 
     bits.append(f"|<strong>More Info<strong>| {docs_utils.get_url(issue.test_id)} |\n")
 
     if show_code:
         bits.append("<br>\n\n```python")
-        bits.extend(
-            [indent + line for line in issue.get_code(lines, True).split("\n")]
-        )
+        bits.extend([indent + line for line in issue.get_code(lines, True).split("\n")])
         bits.append("```\n")
 
     bits.append("</details>")
@@ -251,7 +250,7 @@ def report(
     * Function template taken from:
     https://bandit.readthedocs.io/en/latest/formatters/index.html#example-formatter
     * `fileobj` is unused here but required by bandit.
-    * IMMPORTATN: Argument names must match the bandit report function:
+    * IMMPORTANT: Argument names must match the bandit report function:
     https://github.com/PyCQA/bandit/blob/29bc186352e30c732333847479e60a0628344be5/bandit/formatters/text.py#L152
 
     Parameters
@@ -287,12 +286,10 @@ def report(
 
         # add detailed security issue results
         bits.append(
-            "<details><summary>📋 Click here to see the all possible security issues</summary>\n"
+            "<details><summary>📋 Click here to see details of potential vulnerabilities</summary>\n"
             "<br>\n"
         )
-        bits.append(
-            get_detailed_results(manager, sev_level, conf_level, lines)
-        )
+        bits.append(get_detailed_results(manager, sev_level, conf_level, lines))
         bits.append("</details>")
 
         result = "\n".join([bit for bit in bits]) + "\n"
