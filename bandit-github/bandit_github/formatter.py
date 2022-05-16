@@ -244,7 +244,7 @@ def report(
     conf_level,
     lines: int = -1,
 ):
-    """Prints discovered issues in the text format
+    """Reports discovered issues in the text format
 
     Notes
     -----
