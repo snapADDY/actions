@@ -239,9 +239,9 @@ def get_verbose_details(manager: "bandit.core.manager.BanditManager"):
 @test_properties.accepts_baseline
 def report(
     manager: "bandit.core.manager.BanditManager",
-    fileobj: IO,
+    #fileobj: IO,
     sev_level: str,
-    conf_level,
+    conf_level: str,
     lines: int = -1,
 ):
     """Reports discovered issues in the text format
