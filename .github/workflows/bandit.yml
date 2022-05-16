@@ -1,4 +1,4 @@
-name: Code security check with bandit
+name: (FAILS) Code security check with bandit
 on:
   pull_request
 jobs:
@@ -10,17 +10,7 @@ jobs:
       with:
         fetch-depth: 5
 
-    - name: Obtain message from last commit
-      run: |
-        echo "commitmsg=$(echo $(git log --format=%B -n 1 ${{ github.event.after }}))" >> $GITHUB_ENV
-    - name: Post Report
-      id: post_report
-      if: contains(env.commitmsg, 'check_security')
-      run: export BANDIT_COMMENT_ON_PULL_REQUEST=True
-
-
     - name: Run Bandit
-      id: run_bandit
       uses: snapADDY/actions/bandit-github@v1
       with:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
