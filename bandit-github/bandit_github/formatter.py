@@ -13,7 +13,6 @@ def comment_on_pull_request(message: str):
     """Comments a message within a pull request."""
     token = os.getenv("INPUT_GITHUB_TOKEN")
     if not token:
-        print(message)
         return
 
     if os.getenv("GITHUB_EVENT_NAME") == "pull_request":
@@ -250,7 +249,7 @@ def report(
     * Function template taken from:
     https://bandit.readthedocs.io/en/latest/formatters/index.html#example-formatter
     * `fileobj` is unused here but required by bandit.
-    * IMMPORTANT: Argument names must match the bandit report function:
+    * IMPORTANT: argument names must match the bandit report function:
     https://github.com/PyCQA/bandit/blob/29bc186352e30c732333847479e60a0628344be5/bandit/formatters/text.py#L152
 
     Parameters
@@ -293,6 +292,8 @@ def report(
         bits.append("</details>")
 
         result = "\n".join([bit for bit in bits]) + "\n"
+
+        # print(result)
 
         if BANDIT_COMMENT_ON_PULL_REQUEST:
             comment_on_pull_request(result)
