@@ -21,10 +21,10 @@ jobs:
 
     - name: Run Bandit
       id: run_bandit
-      uses: ../bandit-github
+      uses: ./bandit-github
       with:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        path: "../bandit-github/"
+        path: "./bandit-github/"
         level: low
         confidence: low
         excluded_paths: "tests"
