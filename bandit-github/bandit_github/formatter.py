@@ -13,6 +13,7 @@ def comment_on_pull_request(message: str):
     """Comments a message within a pull request."""
     token = os.getenv("INPUT_GITHUB_TOKEN")
     if not token:
+        print(message)
         return
 
     if os.getenv("GITHUB_EVENT_NAME") == "pull_request":
@@ -293,7 +294,9 @@ def report(
 
         result = "\n".join([bit for bit in bits]) + "\n"
 
-        # print(result)
+        # Printing all issues to terminal
+        for idx, issue in enumerate(manager.get_issue_list(sev_level, conf_level)):
+            print(f"{idx+1}. {issue}")
 
         if BANDIT_COMMENT_ON_PULL_REQUEST:
             comment_on_pull_request(result)
