@@ -34,7 +34,7 @@ func TestExtractFlags(t *testing.T) {
 			want:  []string{"skip ci", "img prod"},
 		},
 		{
-			name:  "missmatched brackets",
+			name:  "mismatched brackets",
 			input: "foo [skip ci[img prod][",
 			want:  []string{"img prod"},
 		},
