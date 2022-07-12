@@ -1,10 +1,10 @@
-name: Build Util
+name: Lint and Test
 on:
   pull_request:
   push:
 
 jobs:
-  lint:
+  go-lint-test:
     runs-on: ubuntu-latest
     steps:
         - uses: actions/checkout@v2
@@ -15,14 +15,5 @@ jobs:
 
         - name: golangci-lint
           uses: golangci/golangci-lint-action@v2
-
-  test:
-    runs-on: ubuntu-latest
-    steps:
-        - uses: actions/checkout@v2
-
-        - uses: actions/setup-go@v2
-          with:
-            go-version: '1.17'
 
         - run: make test
