@@ -15,10 +15,10 @@ type ImgFlag struct {
 	BuildDev bool
 }
 
-var blockedEnvOverrides = map[string]bool{
-	"master":  true,
-	"main":    true,
-	"staging": true,
+var blockedEnvOverrides = map[string]struct{}{
+	"master":  {},
+	"main":    {},
+	"staging": {},
 }
 
 func parseImgFlag(flag []string) ImgFlag {
