@@ -72,8 +72,8 @@ func makeImgTag(action actions.Context, imgFlag ImgFlag) (tag, envName string, p
 			pub := alwaysPublish || imgFlag.ShouldPublish
 
 			// Override the environment name if requested.
-			// Branches commits from branches that always publish tags
-			// can not override the Tag to prevent issues with squash merges.
+			// Commits from branches that always publish tags can not override
+			// the env name to prevent issues with squash merges.
 			ov := imgFlag.EnvNameOverride
 			if ov != "" && tagRegex.MatchString(ov) && !alwaysPublish {
 				br = ov
