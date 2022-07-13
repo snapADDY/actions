@@ -44,6 +44,8 @@ All other events don't trigger an image publish.
 ## Output
 | Name | Type | Example | Description |
 | - | - | - | - |
+| `env-name` | string | `fix-123` | Name of the environment (first part of the image tag) |
+| `env-override` | string | `myenv` | Env name override of [img:override] message flag |
+| `has-img-flag` | string(boolean) | `true` | Commit message contains a [img] message flag |
+| `publish` | string(boolean) | `true` | Decides if images should be published |
 | `tag-name` | string | `fix-123-1a2b3c4-26` | Docker image tag |
-| `publish` | string(boolean) | `"true"` | Decides if images should be published |
-

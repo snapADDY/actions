@@ -11,6 +11,12 @@ outputs:
     description: Docker image tag
   publish:
     description: Decides if images should be published
+  env-name:
+    description: Name of the environment (first part of the image tag)
+  env-override:
+    description: Env name override of [img:override] message flag
+  has-img-flag:
+    description: Commit message contains a [img] message flag
 runs:
-  using: 'docker'
-  image: 'docker://ghcr.io/snapaddy/actions-prepare-img-tag:1.3.8'
+  using: "docker"
+  image: "docker://ghcr.io/snapaddy/actions-prepare-img-tag:1.4.0"
