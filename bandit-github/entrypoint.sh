@@ -1,7 +1,5 @@
 #!/bin/sh
 
-#./entrypoint.sh . high high ./.venv 0 DEFAULT DEFAULT
-
 UPPERCASE_LEVEL=$(echo $2 | tr a-z A-Z)
 case $UPPERCASE_LEVEL in
 LOW)

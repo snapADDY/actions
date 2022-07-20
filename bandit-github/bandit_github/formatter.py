@@ -250,7 +250,7 @@ def report(
     * Function template taken from:
     https://bandit.readthedocs.io/en/latest/formatters/index.html#example-formatter
     * `fileobj` is unused here but required by bandit.
-    * IMMPORTANT: Argument names must match the bandit report function:
+    * IMPORTANT: argument names must match the bandit report function:
     https://github.com/PyCQA/bandit/blob/29bc186352e30c732333847479e60a0628344be5/bandit/formatters/text.py#L152
 
     Parameters
@@ -293,6 +293,10 @@ def report(
         bits.append("</details>")
 
         result = "\n".join([bit for bit in bits]) + "\n"
+
+        # Printing all issues to terminal
+        for idx, issue in enumerate(manager.get_issue_list(sev_level, conf_level)):
+            print(f"{idx+1}. {issue}")
 
         if BANDIT_COMMENT_ON_PULL_REQUEST:
             comment_on_pull_request(result)
