@@ -19,4 +19,4 @@ outputs:
     description: Commit message contains a [img] message flag
 runs:
   using: 'docker'
-  image: 'docker://ghcr.io/snapaddy/actions-prepare-img-tag:1.4.1'
+  image: 'docker://ghcr.io/snapaddy/actions-prepare-img-tag:1.4.2'
