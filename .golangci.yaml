@@ -3,16 +3,17 @@ linters:
     - bodyclose
     - containedctx
     - contextcheck
-    - deadcode
     - durationcheck
     - errcheck
     - errchkjson
     - errname
+    - errorlint
     - exhaustive
     - forcetypeassert
     - gocognit
     - goconst
     - gocritic
+    - godot
     - godox
     - goerr113
     - gofmt
@@ -29,6 +30,7 @@ linters:
     - nilnil
     - noctx
     - nolintlint
+    - paralleltest
     - prealloc
     - predeclared
     - promlinter
@@ -36,11 +38,9 @@ linters:
     - rowserrcheck
     - sqlclosecheck
     - staticcheck
-    - structcheck
     - stylecheck
     - tenv
     - thelper
     - typecheck
     - unconvert
     - unused
-    - varcheck

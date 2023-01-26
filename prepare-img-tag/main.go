@@ -51,7 +51,7 @@ func run() error {
 	return nil
 }
 
-// makeImgTag creates the tag for our container registry and decides if the image should be published
+// makeImgTag creates the tag for our container registry and decides if the image should be published.
 func makeImgTag(action actions.Context, imgFlag ImgFlag) (tag, envName string, publish bool) {
 	tagRegex := regexp.MustCompile(`^\w[\w.-]{0,127}$`)
 	invalidChar := regexp.MustCompile(`[^\w.-]+`)

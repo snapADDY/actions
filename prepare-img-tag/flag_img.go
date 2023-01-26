@@ -1,7 +1,8 @@
 package main
 
 // ImgFlag describes all options for docker images. The Flag uses `img` as prefix and has multiple optional settings.
-// Examles of valid flags:
+// Examples of valid flags:
+//
 //	[img]         // Shortest valid flag;
 //	[img:testenv] // Override the branch name with "testenv"
 //	[img::dev]    // Dev build enabled
