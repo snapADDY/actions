@@ -13,7 +13,7 @@ install-js-dependencies:
 	pnpm install
 
 detect-changes: install-js-dependencies
-	pnpm build --filter ...detect-changes
+	pnpm --filter detect-changes build
 
 prepare-img-tag:
 	CGO_ENABLED=0 go build -ldflags '$(LDFLAGS)' -o '$(BINDIR)'/ ./prepare-img-tag
