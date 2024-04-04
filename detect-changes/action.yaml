@@ -15,7 +15,7 @@ outputs:
   changed-files:
     description: List of changed files since last successful run
 runs:
-  using: 'node16'
+  using: 'node20'
   main: 'dist/run/index.js'
   post: 'dist/post-run/index.js'
   post-if: 'success()'
