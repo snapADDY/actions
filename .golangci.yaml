@@ -1,29 +1,39 @@
+version: "2"
 linters:
   enable:
     - bodyclose
     - containedctx
     - contextcheck
+    - copyloopvar
     - durationcheck
+    - err113
     - errcheck
     - errchkjson
     - errname
     - errorlint
     - exhaustive
+    - exptostd
+    - fatcontext
     - forcetypeassert
+    - ginkgolinter
+    - gocheckcompilerdirectives
+    - gochecksumtype
     - gocognit
     - goconst
     - gocritic
     - godot
     - godox
-    - goerr113
-    - gofmt
-    - goimports
     - gosec
-    - gosimple
     - govet
+    - iface
+    - inamedparam
     - ineffassign
+    - ireturn
+    - loggercheck
     - makezero
+    - mirror
     - misspell
+    - musttag
     - nakedret
     - nestif
     - nilerr
@@ -31,16 +41,57 @@ linters:
     - noctx
     - nolintlint
     - paralleltest
+    - perfsprint
     - prealloc
     - predeclared
     - promlinter
+    - reassign
+    - recvcheck
     - revive
     - rowserrcheck
+    - sloglint
+    - spancheck
     - sqlclosecheck
     - staticcheck
-    - stylecheck
-    - tenv
+    - tagalign
+    # - tagliatelle
     - thelper
-    - typecheck
+    - tparallel
     - unconvert
     - unused
+    - usestdlibvars
+    - usetesting
+    - wastedassign
+    - wrapcheck
+    - zerologlint
+  exclusions:
+    generated: lax
+    presets:
+      - comments
+      - common-false-positives
+      - std-error-handling
+  settings:
+    errcheck:
+      check-type-assertions: true
+      check-blank: false
+    nilnil:
+      only-two: false
+      detect-opposite: true
+    nolintlint:
+      require-explanation: true
+      require-specific: true
+    reassign:
+      patterns:
+        - ".*"
+    sloglint:
+      context: all
+      static-msg: true
+    spancheck:
+      checks:
+        - end
+        - record-error
+        - set-status
+formatters:
+  enable:
+    - gofmt
+    - goimports
